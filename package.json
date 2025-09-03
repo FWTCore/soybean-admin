@@ -1,11 +1,11 @@
 {
-  "name": "soybean-admin",
+  "name": "xcom-admin",
   "type": "module",
   "version": "1.3.15",
   "description": "A fresh and elegant admin template, based on Vue3、Vite7、TypeScript、NaiveUI and UnoCSS. 一个基于Vue3、Vite7、TypeScript、NaiveUI and UnoCSS的清新优雅的中后台模版。",
   "author": {
-    "name": "Soybean",
-    "email": "soybeanjs@outlook.com",
+    "name": "Xcom",
+    "email": "xcom@qq.com",
     "url": "https://github.com/soybeanjs"
   },
   "license": "MIT",
