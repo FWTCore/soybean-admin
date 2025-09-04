@@ -1,5 +1,6 @@
 import type { AxiosResponse } from 'axios';
 import { BACKEND_ERROR_CODE, createFlatRequest, createRequest } from '@sa/axios';
+import { MD5, nanoid } from '@sa/utils';
 import { useAuthStore } from '@/store/modules/auth';
 import { localStg } from '@/utils/storage';
 import { getServiceBaseURL } from '@/utils/service';
@@ -119,6 +120,106 @@ export const request = createFlatRequest<App.Service.Response, RequestInstanceSt
       }
 
       showErrorMsg(request.state, message);
+    }
+  }
+);
+
+export const xcomRequest = createFlatRequest<App.Service.XcomResponse, RequestInstanceState>(
+  {
+    baseURL: otherBaseURL.xcom
+  },
+  {
+    async onRequest(config) {
+      // init token
+      const token = localStg.get('token');
+      Object.assign(config.headers, { 'X-Access-Token': token });
+
+      const nonceStr = nanoid();
+      Object.assign(config.headers, { 'X-NonceStr': nonceStr });
+      const timestamp = Date.now();
+      Object.assign(config.headers, { 'X-Timestamp': timestamp });
+      const sign = MD5.encrypt(
+        import.meta.env.VITE_REQUEST_SECRET + nonceStr + timestamp + import.meta.env.VITE_REQUEST_SECRET
+      );
+      Object.assign(config.headers, { 'X-Signature': sign });
+      return config;
+    },
+    isBackendSuccess(response) {
+      // when the backend response code is "0000"(default), it means the request is success
+      // to change this logic by yourself, you can modify the `VITE_SERVICE_SUCCESS_CODE` in `.env` file
+      // return String(response.data.code) === import.meta.env.VITE_SERVICE_SUCCESS_CODE;
+      return response.data.success;
+    },
+    async onBackendFail(response, instance) {
+      const authStore = useAuthStore();
+      const responseCode = String(response.data.code);
+
+      function handleLogout() {
+        authStore.resetStore();
+      }
+
+      function logoutAndCleanup() {
+        handleLogout();
+        window.removeEventListener('beforeunload', handleLogout);
+
+        xcomRequest.state.errMsgStack = xcomRequest.state.errMsgStack.filter(msg => msg !== response.data.message);
+      }
+
+      // when the backend response code is in `logoutCodes`, it means the user will be logged out and redirected to login page
+      const logoutCodes = import.meta.env.VITE_SERVICE_LOGOUT_CODES?.split(',') || [];
+      if (logoutCodes.includes(responseCode)) {
+        handleLogout();
+        return null;
+      }
+
+      // when the backend response code is in `modalLogoutCodes`, it means the user will be logged out by displaying a modal
+      const modalLogoutCodes = import.meta.env.VITE_SERVICE_MODAL_LOGOUT_CODES?.split(',') || [];
+      if (modalLogoutCodes.includes(responseCode) && !xcomRequest.state.errMsgStack?.includes(response.data.message)) {
+        request.state.errMsgStack = [...(request.state.errMsgStack || []), response.data.message];
+
+        // prevent the user from refreshing the page
+        window.addEventListener('beforeunload', handleLogout);
+
+        window.$dialog?.error({
+          title: $t('common.error'),
+          content: response.data.message,
+          positiveText: $t('common.confirm'),
+          maskClosable: false,
+          closeOnEsc: false,
+          onPositiveClick() {
+            logoutAndCleanup();
+          },
+          onClose() {
+            logoutAndCleanup();
+          }
+        });
+
+        return null;
+      }
+
+      return null;
+    },
+    transformBackendResponse(response) {
+      return response.data.data;
+    },
+    onError(error) {
+      // when the request is fail, you can show error message
+
+      let message = error.message;
+      let backendErrorCode = '';
+
+      // get backend error message and code
+      if (error.code === BACKEND_ERROR_CODE) {
+        message = error.response?.data?.message || message;
+        backendErrorCode = String(error.response?.data?.code || '');
+      }
+
+      // the error message is displayed in the modal
+      const modalLogoutCodes = import.meta.env.VITE_SERVICE_MODAL_LOGOUT_CODES?.split(',') || [];
+      if (backendErrorCode && modalLogoutCodes.includes(backendErrorCode)) {
+        return;
+      }
+      showErrorMsg(xcomRequest.state, message);
     }
   }
 );

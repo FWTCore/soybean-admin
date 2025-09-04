@@ -1,4 +1,4 @@
-import { request } from '../request';
+import { request, xcomRequest } from '../request';
 
 /**
  * Login
@@ -7,8 +7,8 @@ import { request } from '../request';
  * @param password Password
  */
 export function fetchLogin(userName: string, password: string) {
-  return request<Api.Auth.LoginToken>({
-    url: '/auth/login',
+  return xcomRequest<Api.Auth.LoginToken>({
+    url: '/system/account/login',
     method: 'post',
     data: {
       userName,
@@ -17,9 +17,9 @@ export function fetchLogin(userName: string, password: string) {
   });
 }
 
-/** Get user info */
-export function fetchGetUserInfo() {
-  return request<Api.Auth.UserInfo>({ url: '/auth/getUserInfo' });
+/** Get login info */
+export function fetchGetLoginInfo() {
+  return request<Api.Auth.UserInfo>({ url: '/system/account/getLoginInfo' });
 }
 
 /**

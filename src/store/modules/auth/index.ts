@@ -2,7 +2,7 @@ import { computed, reactive, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { defineStore } from 'pinia';
 import { useLoading } from '@sa/hooks';
-import { fetchGetUserInfo, fetchLogin } from '@/service/api';
+import { fetchGetLoginInfo, fetchLogin } from '@/service/api';
 import { useRouterPush } from '@/hooks/common/router';
 import { localStg } from '@/utils/storage';
 import { SetupStoreId } from '@/enum';
@@ -131,10 +131,12 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
   async function loginByToken(loginToken: Api.Auth.LoginToken) {
     // 1. stored in the localStorage, the later requests need it in headers
     localStg.set('token', loginToken.token);
-    localStg.set('refreshToken', loginToken.refreshToken);
+    // localStg.set('refreshToken', loginToken.refreshToken);
 
-    // 2. get user info
-    const pass = await getUserInfo();
+    // 2. get login info
+    const pass = await getLoginInfo();
+
+    // 3.load menu and permissions
 
     if (pass) {
       token.value = loginToken.token;
@@ -145,8 +147,8 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
     return false;
   }
 
-  async function getUserInfo() {
-    const { data: info, error } = await fetchGetUserInfo();
+  async function getLoginInfo() {
+    const { data: info, error } = await fetchGetLoginInfo();
 
     if (!error) {
       // update store
@@ -162,7 +164,7 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
     const hasToken = getToken();
 
     if (hasToken) {
-      const pass = await getUserInfo();
+      const pass = await fetchGetLoginInfo();
 
       if (!pass) {
         resetStore();
