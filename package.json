@@ -102,9 +102,9 @@
     "vue-eslint-parser": "10.2.0",
     "vue-tsc": "3.0.6"
   },
-  "simple-git-hooks": {
-    "commit-msg": "pnpm sa git-commit-verify",
-    "pre-commit": ""
-  },
+  // "simple-git-hooks": {
+  //   "commit-msg": "pnpm sa git-commit-verify",
+  //   "pre-commit": "pnpm typecheck && pnpm lint && git diff --exit-code"
+  // },
   "website": "https://admin.soybeanjs.cn"
 }
