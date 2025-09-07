@@ -6,7 +6,7 @@ import type { CustomRoute, ElegantConstRoute, LastLevelRouteKey, RouteKey, Route
 import { router } from '@/router';
 import { fetchGetConstantRoutes, fetchGetUserRoutes, fetchIsRouteExist } from '@/service/api';
 import { SetupStoreId } from '@/enum';
-import { createStaticRoutes, getAuthVueRoutes } from '@/router/routes';
+import { createStaticRoutes, getAuthVueRoutes, createDynamicConstantRoutes } from '@/router/routes';
 import { ROOT_ROUTE } from '@/router/routes/builtin';
 import { getRouteName, getRoutePath } from '@/router/elegant/transform';
 import { useAuthStore } from '../auth';
@@ -152,19 +152,17 @@ export const useRouteStore = defineStore(SetupStoreId.Route, () => {
   async function initConstantRoute() {
     if (isInitConstantRoute.value) return;
 
-    const staticRoute = createStaticRoutes();
 
     if (authRouteMode.value === 'static') {
+      const staticRoute = createStaticRoutes();
       addConstantRoutes(staticRoute.constantRoutes);
     } else {
-      const { data, error } = await fetchGetConstantRoutes();
-
-      if (!error) {
-        addConstantRoutes(data);
-      } else {
-        // if fetch constant routes failed, use static constant routes
-        addConstantRoutes(staticRoute.constantRoutes);
-      }
+      const routes = createDynamicConstantRoutes();
+      // const { data, error } = await fetchGetConstantRoutes();
+      // if (!error) {
+      //   addConstantRoutes(data);
+      // }
+      addConstantRoutes(routes.constantRoutes);
     }
 
     handleConstantAndAuthRoutes();

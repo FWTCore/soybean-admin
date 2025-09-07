@@ -2,7 +2,7 @@ import { computed, reactive, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { defineStore } from 'pinia';
 import { useLoading } from '@sa/hooks';
-import { fetchGetLoginInfo, fetchLogin } from '@/service/api';
+import { fetchGetUserInfo, fetchLogin } from '@/service/api';
 import { useRouterPush } from '@/hooks/common/router';
 import { localStg } from '@/utils/storage';
 import { SetupStoreId } from '@/enum';
@@ -10,6 +10,7 @@ import { $t } from '@/locales';
 import { useRouteStore } from '../route';
 import { useTabStore } from '../tab';
 import { clearAuthStorage, getToken } from './shared';
+import { MD5 } from '@sa/utils';
 
 export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
   const route = useRoute();
@@ -24,6 +25,9 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
   const userInfo: Api.Auth.UserInfo = reactive({
     userId: '',
     userName: '',
+    companyId: '',
+    companyName: '',
+    companyType: '',
     roles: [],
     buttons: []
   });
@@ -98,7 +102,9 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
    */
   async function login(userName: string, password: string, redirect = true) {
     startLoading();
-
+    password = MD5.encrypt(
+      import.meta.env.VITE_REQUEST_SECRET + password + import.meta.env.VITE_REQUEST_SECRET
+      );
     const { data: loginToken, error } = await fetchLogin(userName, password);
 
     if (!error) {
@@ -134,7 +140,9 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
     // localStg.set('refreshToken', loginToken.refreshToken);
 
     // 2. get login info
-    const pass = await getLoginInfo();
+    const pass = await getUserInfo();
+
+    
 
     // 3.load menu and permissions
 
@@ -147,8 +155,8 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
     return false;
   }
 
-  async function getLoginInfo() {
-    const { data: info, error } = await fetchGetLoginInfo();
+  async function getUserInfo() {
+    const { data: info, error } = await fetchGetUserInfo();
 
     if (!error) {
       // update store
@@ -164,10 +172,13 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
     const hasToken = getToken();
 
     if (hasToken) {
-      const pass = await fetchGetLoginInfo();
+       const { data: info, error } = await fetchGetUserInfo();
 
-      if (!pass) {
+      if (error) {
         resetStore();
+      }else {
+        // update store
+        Object.assign(userInfo, info);
       }
     }
   }

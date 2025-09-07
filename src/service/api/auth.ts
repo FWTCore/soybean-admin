@@ -8,7 +8,7 @@ import { request, xcomRequest } from '../request';
  */
 export function fetchLogin(userName: string, password: string) {
   return xcomRequest<Api.Auth.LoginToken>({
-    url: '/system/account/login',
+    url: '/infra/system/account/login',
     method: 'post',
     data: {
       userName,
@@ -17,9 +17,9 @@ export function fetchLogin(userName: string, password: string) {
   });
 }
 
-/** Get login info */
-export function fetchGetLoginInfo() {
-  return request<Api.Auth.UserInfo>({ url: '/system/account/getLoginInfo' });
+/** Get user info */
+export function fetchGetUserInfo() {
+  return request<Api.Auth.UserInfo>({ url: '/infra/system/account/getUserInfo' });
 }
 
 /**

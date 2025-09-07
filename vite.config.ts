@@ -32,6 +32,8 @@ export default defineConfig(configEnv => {
       BUILD_TIME: JSON.stringify(buildTime)
     },
     server: {
+      // 或者使用 'all' 来允许所有主机（仅限开发时使用！）
+      allowedHosts: 'all',
       host: '0.0.0.0',
       port: 9527,
       open: true,
