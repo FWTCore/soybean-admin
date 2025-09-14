@@ -44,6 +44,7 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
 
   /** Reset auth store */
   async function resetStore() {
+    console.log("resetStore");
     recordUserId();
 
     clearAuthStorage();
@@ -152,6 +153,7 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
   }
 
   async function getUserInfo() {
+    console.log("getUserInfo");
     const { data: info, error } = await fetchGetUserInfo();
 
     if (!error) {

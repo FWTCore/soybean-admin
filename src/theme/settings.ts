@@ -29,10 +29,10 @@ export const themeSettings: App.Theme.ThemeSetting = {
       showIcon: true
     },
     multilingual: {
-      visible: true
+      visible: false
     },
     globalSearch: {
-      visible: true
+      visible: false
     }
   },
   tab: {
@@ -51,14 +51,14 @@ export const themeSettings: App.Theme.ThemeSetting = {
     mixChildMenuWidth: 200
   },
   footer: {
-    visible: true,
+    visible: false,
     fixed: false,
     height: 48,
     right: true
   },
   watermark: {
-    visible: false,
-    text: 'SoybeanAdmin',
+    visible: true,
+    text: 'xcom',
     enableUserName: false
   },
   tokens: {

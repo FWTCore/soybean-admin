@@ -146,16 +146,17 @@ async function initRoute(to: RouteLocationNormalized): Promise<RouteLocationRaw 
   }
 
   // it is captured by the "not-found" route, then check whether the route exists
-  const exist = await routeStore.getIsAuthRouteExist(to.path as RoutePath);
-  const noPermissionRoute: RouteKey = '403';
+  //const exist = await routeStore.getIsAuthRouteExist(to.path as RoutePath);
+  // const exist = true;
+  // const noPermissionRoute: RouteKey = '403';
 
-  if (exist) {
-    const location: RouteLocationRaw = {
-      name: noPermissionRoute
-    };
+  // if (exist) {
+  //   const location: RouteLocationRaw = {
+  //     name: noPermissionRoute
+  //   };
 
-    return location;
-  }
+  //   return location;
+  // }
 
   return null;
 }

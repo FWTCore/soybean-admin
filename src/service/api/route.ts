@@ -1,4 +1,4 @@
-import { request } from '../request';
+import { request,xcomRequest } from '../request';
 
 /** get constant routes */
 export function fetchGetConstantRoutes() {
@@ -7,7 +7,7 @@ export function fetchGetConstantRoutes() {
 
 /** get user routes */
 export function fetchGetUserRoutes() {
-  return request<Api.Route.UserRoute>({ url: '/infra/system/account/getLoginAuth' });
+  return xcomRequest<Api.Route.UserRoute>({ url: '/infra/system/account/getLoginAuth' });
 }
 
 /**
