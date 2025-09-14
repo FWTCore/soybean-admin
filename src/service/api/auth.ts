@@ -22,6 +22,12 @@ export function fetchGetUserInfo() {
   return xcomRequest<Api.Auth.UserInfo>({ url: '/infra/system/account/getUserInfo' });
 }
 
+
+/** Get logout */
+export function fetchLogout() {
+  return xcomRequest<boolean>({ url: '/infra/system/account/logout' });
+}
+
 /**
  * Refresh token
  *

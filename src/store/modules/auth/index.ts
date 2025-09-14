@@ -2,7 +2,7 @@ import { computed, reactive, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { defineStore } from 'pinia';
 import { useLoading } from '@sa/hooks';
-import { fetchGetUserInfo, fetchLogin } from '@/service/api';
+import { fetchGetUserInfo, fetchLogin, fetchLogout } from '@/service/api';
 import { useRouterPush } from '@/hooks/common/router';
 import { localStg } from '@/utils/storage';
 import { SetupStoreId } from '@/enum';
@@ -11,6 +11,7 @@ import { useRouteStore } from '../route';
 import { useTabStore } from '../tab';
 import { clearAuthStorage, getToken } from './shared';
 import { MD5 } from '@sa/utils';
+import { esAR } from 'naive-ui';
 
 export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
   const route = useRoute();
@@ -28,6 +29,7 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
     companyId: '',
     companyName: '',
     companyType: '',
+    hasSupAdmin: false,
     roles: [],
     buttons: []
   });
@@ -44,13 +46,13 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
 
   /** Reset auth store */
   async function resetStore() {
-    console.log("resetStore");
+    
     recordUserId();
 
     clearAuthStorage();
 
     authStore.$reset();
-
+    console.log(route.meta);
     if (!route.meta.constant) {
       await toLogin();
     }
@@ -153,7 +155,6 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
   }
 
   async function getUserInfo() {
-    console.log("getUserInfo");
     const { data: info, error } = await fetchGetUserInfo();
 
     if (!error) {
@@ -181,6 +182,16 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
     }
   }
 
+  async function logout() {
+    const hasToken = getToken();
+    if (hasToken) {
+      const { data: resp, error } = await fetchLogout();
+      if (resp) {
+        resetStore();
+      }
+    }
+  }
+
   return {
     token,
     userInfo,
@@ -189,6 +200,7 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
     loginLoading,
     resetStore,
     login,
-    initUserInfo
+    initUserInfo,
+    logout
   };
 });

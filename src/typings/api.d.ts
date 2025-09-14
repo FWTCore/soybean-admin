@@ -65,6 +65,7 @@ declare namespace Api {
       companyId: string;
       companyName: string;
       companyType: string;
+      hasSupAdmin: boolean;
       roles: string[];
       buttons: string[];
     }

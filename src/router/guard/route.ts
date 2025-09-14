@@ -19,7 +19,7 @@ import { getRouteName } from '@/router/elegant/transform';
 export function createRouteGuard(router: Router) {
   router.beforeEach(async (to, from, next) => {
     const location = await initRoute(to);
-
+    console.log("1");
     if (location) {
       next(location);
       return;
@@ -35,7 +35,7 @@ export function createRouteGuard(router: Router) {
     const isLogin = Boolean(localStg.get('token'));
     // the route need login but the user is not logged in, then switch to the login page
     const loginRoute: RouteKey = 'login';
-    if (!isLogin) {
+    if (!isLogin) { 
       next({ name: loginRoute, query: { redirect: to.fullPath } });
       return;
     }
@@ -53,7 +53,7 @@ export function createRouteGuard(router: Router) {
     // const hasAuth = authStore.isStaticSuper || !routeRoles.length || hasRole;
     const authKey = to.meta.authKey;
     const hasAuthKey = authStore.userInfo.buttons.some(key => authKey === key);
-    const hasAuth = authStore.isStaticSuper || hasAuthKey;
+    const hasAuth = authStore.isStaticSuper || hasAuthKey || authStore.userInfo.hasSupAdmin;
 
     // if the user is logged in but does not have authorization, then switch to the 403 page
     if (!hasAuth) {

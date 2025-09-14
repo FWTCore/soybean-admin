@@ -20,7 +20,7 @@ export const generatedRoutes: GeneratedRoute[] = [
   {
     name: '404',
     path: '/404',
-    component: 'layout.blank$view.404',
+    component: 'layout.base$view.404',
     meta: {
       title: '404',
       i18nKey: 'route.404',
@@ -31,7 +31,7 @@ export const generatedRoutes: GeneratedRoute[] = [
   {
     name: '500',
     path: '/500',
-    component: 'layout.blank$view.500',
+    component: 'layout.base$view.500',
     meta: {
       title: '500',
       i18nKey: 'route.500',
@@ -45,9 +45,7 @@ export const generatedRoutes: GeneratedRoute[] = [
     component: 'layout.base$view.home',
     meta: {
       title: 'home',
-      i18nKey: 'route.home',
-      icon: 'mdi:monitor-dashboard',
-      order: 1
+      i18nKey: 'route.home'
     }
   },
   {
