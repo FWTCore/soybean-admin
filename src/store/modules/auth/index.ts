@@ -104,7 +104,7 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
     startLoading();
     password = MD5.encrypt(
       import.meta.env.VITE_REQUEST_SECRET + password + import.meta.env.VITE_REQUEST_SECRET
-      );
+    );
     const { data: loginToken, error } = await fetchLogin(userName, password);
 
     if (!error) {
@@ -142,10 +142,6 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
     // 2. get login info
     const pass = await getUserInfo();
 
-    
-
-    // 3.load menu and permissions
-
     if (pass) {
       token.value = loginToken.token;
 
@@ -172,11 +168,11 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
     const hasToken = getToken();
 
     if (hasToken) {
-       const { data: info, error } = await fetchGetUserInfo();
+      const { data: info, error } = await fetchGetUserInfo();
 
       if (error) {
         resetStore();
-      }else {
+      } else {
         // update store
         Object.assign(userInfo, info);
       }

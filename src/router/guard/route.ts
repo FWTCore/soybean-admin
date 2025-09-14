@@ -47,11 +47,14 @@ export function createRouteGuard(router: Router) {
     }
 
     const noAuthorizationRoute: RouteKey = '403';
-    const routeRoles = to.meta.roles || [];
-
     const authStore = useAuthStore();
-    const hasRole = authStore.userInfo.roles.some(role => routeRoles.includes(role));
-    const hasAuth = authStore.isStaticSuper || !routeRoles.length || hasRole;
+    //const routeRoles = to.meta.roles || [];
+    // const hasRole = authStore.userInfo.roles.some(role => routeRoles.includes(role));
+    // const hasAuth = authStore.isStaticSuper || !routeRoles.length || hasRole;
+    const authKey = to.meta.authKey;
+    const hasAuthKey = authStore.userInfo.buttons.some(key => authKey === key);
+    const hasAuth = authStore.isStaticSuper || hasAuthKey;
+
     // if the user is logged in but does not have authorization, then switch to the 403 page
     if (!hasAuth) {
       next({ name: noAuthorizationRoute });
