@@ -74,6 +74,137 @@ export const generatedRoutes: GeneratedRoute[] = [
     }
   },
   {
+    name: 'monitor',
+    path: '/monitor',
+    component: 'layout.base',
+    meta: {
+      title: 'monitor',
+      i18nKey: 'route.monitor'
+    },
+    children: [
+      {
+        name: 'monitor_cache',
+        path: '/monitor/cache',
+        component: 'view.monitor_cache',
+        meta: {
+          title: 'monitor_cache',
+          i18nKey: 'route.monitor_cache'
+        }
+      },
+      {
+        name: 'monitor_cachelist',
+        path: '/monitor/cachelist',
+        component: 'view.monitor_cachelist',
+        meta: {
+          title: 'monitor_cachelist',
+          i18nKey: 'route.monitor_cachelist'
+        }
+      },
+      {
+        name: 'monitor_log',
+        path: '/monitor/log',
+        meta: {
+          title: 'monitor_log',
+          i18nKey: 'route.monitor_log'
+        },
+        children: [
+          {
+            name: 'monitor_log_login-log',
+            path: '/monitor/log/login-log',
+            component: 'view.monitor_log_login-log',
+            meta: {
+              title: 'monitor_log_login-log',
+              i18nKey: 'route.monitor_log_login-log'
+            }
+          },
+          {
+            name: 'monitor_log_oper-log',
+            path: '/monitor/log/oper-log',
+            component: 'view.monitor_log_oper-log',
+            meta: {
+              title: 'monitor_log_oper-log',
+              i18nKey: 'route.monitor_log_oper-log'
+            }
+          }
+        ]
+      },
+      {
+        name: 'monitor_server',
+        path: '/monitor/server',
+        component: 'view.monitor_server',
+        meta: {
+          title: 'monitor_server',
+          i18nKey: 'route.monitor_server'
+        }
+      }
+    ]
+  },
+  {
+    name: 'system',
+    path: '/system',
+    component: 'layout.base',
+    meta: {
+      title: 'system',
+      i18nKey: 'route.system'
+    },
+    children: [
+      {
+        name: 'system_config',
+        path: '/system/config',
+        component: 'view.system_config',
+        meta: {
+          title: 'system_config',
+          i18nKey: 'route.system_config'
+        }
+      },
+      {
+        name: 'system_dict',
+        path: '/system/dict',
+        component: 'view.system_dict',
+        meta: {
+          title: 'system_dict',
+          i18nKey: 'route.system_dict'
+        }
+      },
+      {
+        name: 'system_job',
+        path: '/system/job',
+        component: 'view.system_job',
+        meta: {
+          title: 'system_job',
+          i18nKey: 'route.system_job'
+        }
+      },
+      {
+        name: 'system_menu',
+        path: '/system/menu',
+        component: 'view.system_menu',
+        meta: {
+          title: 'system_menu',
+          i18nKey: 'route.system_menu'
+        }
+      },
+      {
+        name: 'system_role',
+        path: '/system/role',
+        component: 'view.system_role',
+        meta: {
+          title: 'system_role',
+          i18nKey: 'route.system_role'
+        }
+      },
+      {
+        name: 'system_user',
+        path: '/system/user',
+        component: 'view.system_user',
+        meta: {
+          title: 'system_user',
+          i18nKey: 'route.system_user'
+        }
+      }
+    ]
+  },
+  {
     name: 'user-center',
     path: '/user-center',
     component: 'layout.base$view.user-center',

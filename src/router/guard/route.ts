@@ -19,7 +19,6 @@ import { getRouteName } from '@/router/elegant/transform';
 export function createRouteGuard(router: Router) {
   router.beforeEach(async (to, from, next) => {
     const location = await initRoute(to);
-    console.log("1");
     if (location) {
       next(location);
       return;

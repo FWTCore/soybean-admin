@@ -169,6 +169,20 @@ const routeMap: RouteMap = {
   "home": "/home",
   "iframe-page": "/iframe-page/:url",
   "login": "/login/:module(pwd-login|code-login|register|reset-pwd|bind-wechat)?",
+  "monitor": "/monitor",
+  "monitor_cache": "/monitor/cache",
+  "monitor_cachelist": "/monitor/cachelist",
+  "monitor_log": "/monitor/log",
+  "monitor_log_login-log": "/monitor/log/login-log",
+  "monitor_log_oper-log": "/monitor/log/oper-log",
+  "monitor_server": "/monitor/server",
+  "system": "/system",
+  "system_config": "/system/config",
+  "system_dict": "/system/dict",
+  "system_job": "/system/job",
+  "system_menu": "/system/menu",
+  "system_role": "/system/role",
+  "system_user": "/system/user",
   "user-center": "/user-center"
 };
 

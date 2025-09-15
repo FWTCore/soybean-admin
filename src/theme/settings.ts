@@ -57,7 +57,7 @@ export const themeSettings: App.Theme.ThemeSetting = {
     right: true
   },
   watermark: {
-    visible: true,
+    visible: false,
     text: 'xcom',
     enableUserName: false
   },
