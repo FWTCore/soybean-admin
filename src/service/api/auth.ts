@@ -22,6 +22,23 @@ export function fetchGetUserInfo() {
   return xcomRequest<Api.Auth.UserInfo>({ url: '/infra/system/account/getUserInfo' });
 }
 
+/** 修改用户基本信息 */
+export function fetchUpdateProfile(data: Api.Auth.UserProfileModifyParams) {
+  return xcomRequest<boolean>({
+    url: '/infra/system/account/modify/profile',
+    method: 'post',
+    data
+  });
+}
+
+/** 修改用户密码 */
+export function fetchUpdatePassword(data: Api.Auth.UserPasswordModifyParams) {
+  return xcomRequest<boolean>({
+    url: '/infra/system/account/modify/password',
+    method: 'post',
+    data
+  });
+}
 
 /** Get logout */
 export function fetchLogout() {

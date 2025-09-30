@@ -62,6 +62,13 @@ declare namespace Api {
     interface UserInfo {
       userId: string;
       userName: string;
+      mobilePhone: string;
+      gender: number;
+      birth: string;
+      avatar: string;
+      positionTitle: string;
+      lastLoginTime: string;
+      createdTime: string;
       companyId: string;
       companyName: string;
       companyType: string;
@@ -69,6 +76,16 @@ declare namespace Api {
       roles: string[];
       buttons: string[];
     }
+
+    /** user profile operate params */
+    type UserProfileModifyParams = CommonType.RecordNullable<Pick<UserInfo, 'userName' | 'mobilePhone' | 'gender'>>;
+
+      /** user password operate params */
+    type UserPasswordModifyParams = CommonType.RecordNullable<{
+      oldPassword: string;
+      newPassword: string;
+    }>;
+
   }
 
   /**

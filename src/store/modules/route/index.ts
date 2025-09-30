@@ -152,17 +152,16 @@ export const useRouteStore = defineStore(SetupStoreId.Route, () => {
   async function initConstantRoute() {
     if (isInitConstantRoute.value) return;
 
-
+    const staticRoute = createStaticRoutes();
     if (authRouteMode.value === 'static') {
-      const staticRoute = createStaticRoutes();
       addConstantRoutes(staticRoute.constantRoutes);
     } else {
-      const routes = createDynamicConstantRoutes();
+      // const routes = createDynamicConstantRoutes();
       // const { data, error } = await fetchGetConstantRoutes();
       // if (!error) {
       //   addConstantRoutes(data);
       // }
-      addConstantRoutes(routes.constantRoutes);
+      addConstantRoutes(staticRoute.constantRoutes);
     }
 
     handleConstantAndAuthRoutes();

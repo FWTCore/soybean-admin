@@ -11,7 +11,6 @@ import { useRouteStore } from '../route';
 import { useTabStore } from '../tab';
 import { clearAuthStorage, getToken } from './shared';
 import { MD5 } from '@sa/utils';
-import { esAR } from 'naive-ui';
 
 export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
   const route = useRoute();
@@ -26,9 +25,18 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
   const userInfo: Api.Auth.UserInfo = reactive({
     userId: '',
     userName: '',
+    mobilePhone: '',
+    gender: 2,
+    genderDesc: '',
+    birth: '',
+    avatar: '',
+    positionTitle: '',
+    lastLoginTime: '',
+    createdTime: '',
     companyId: '',
     companyName: '',
     companyType: '',
+    companyDesc: '',
     hasSupAdmin: false,
     roles: [],
     buttons: []
@@ -52,10 +60,7 @@ export const useAuthStore = defineStore(SetupStoreId.Auth, () => {
     clearAuthStorage();
 
     authStore.$reset();
-    console.log(route.meta);
-    if (!route.meta.constant) {
-      await toLogin();
-    }
+    await toLogin();
 
     tabStore.cacheTabs();
     routeStore.resetStore();

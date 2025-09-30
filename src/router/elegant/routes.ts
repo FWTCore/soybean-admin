@@ -45,7 +45,9 @@ export const generatedRoutes: GeneratedRoute[] = [
     component: 'layout.base$view.home',
     meta: {
       title: 'home',
-      i18nKey: 'route.home'
+      i18nKey: 'route.home',
+      icon: 'mdi:monitor-dashboard',
+      constant: true
     }
   },
   {
@@ -211,7 +213,9 @@ export const generatedRoutes: GeneratedRoute[] = [
     meta: {
       title: 'user-center',
       i18nKey: 'route.user-center',
-      hideInMenu: true
+      icon: 'material-symbols:account-circle-full',
+      hideInMenu: true,
+      constant: true
     }
   }
 ];
